@@ -14,6 +14,16 @@ private:
     int size = 0;
 
 public:
+    // Destructor
+    ~Singly()
+    {
+        while (head != nullptr)
+        {
+            Node *next = head->next;
+            delete head;
+            head = next;
+        }
+    }
     // Push functions
     void push(int data)
     {
@@ -39,9 +49,6 @@ public:
     }
     bool push_after(int data, int after)
     {
-        Node *temp = new Node();
-        temp->data = data;
-
         // Incase of head or 1st node in list
         if (head == nullptr)
         {
@@ -58,16 +65,16 @@ public:
         if (traversing_ptr == nullptr)
             return false;
 
+        Node *temp = new Node();
+        temp->data = data;
         temp->next = traversing_ptr->next;
+
         traversing_ptr->next = temp;
         size++;
         return true;
     }
     bool push_before(int data, int before)
     {
-        Node *temp = new Node();
-        temp->data = data;
-
         // Incase of head
         if (head == nullptr)
             return false;
@@ -75,29 +82,29 @@ public:
         // Else
         Node *traversing_ptr = head;
         Node *prev = nullptr;
-        while (traversing_ptr != nullptr)
+        while (traversing_ptr != nullptr and traversing_ptr->data != before)
         {
-            if (traversing_ptr->data == before)
-                break;
             prev = traversing_ptr;
             traversing_ptr = traversing_ptr->next;
         }
+        if (traversing_ptr == nullptr)
+            return false;
+
+        Node *temp = new Node();
+        temp->data = data;
+        temp->next = traversing_ptr;
+
         // Incase the head is the node to push before
         if (prev == nullptr)
         {
-            temp->next = head;
             head = temp;
-            size++;
-            return true;
         }
         else
         {
-            temp->next = prev->next;
             prev->next = temp;
-            size++;
-            return true;
         }
-        return false;
+        size++;
+        return true;
     }
 
     // Pop functions
