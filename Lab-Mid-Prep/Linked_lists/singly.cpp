@@ -178,6 +178,142 @@ public:
             traversing_ptr = traversing_ptr->next;
         }
     }
+    // Simple LeetCodde Problems
+    // 1. Reverse a Singly Linked List, Only given the head.
+    void reverse()
+    {
+        Node *prev = nullptr;
+        Node *curr = head;
+        Node *next = nullptr;
+        if (head != nullptr)
+            next = head->next;
+        // Now Traverse the list
+        while (curr != nullptr)
+        {
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+            if (curr != nullptr)
+                next = next->next;
+        }
+        head = prev;
+        return;
+    }
+    // 2. Remove nth Node from the End, Only given the head.
+    bool remove_nth_from_end(int n)
+    {
+        if (n <= 0 or head == nullptr)
+            return false;
+
+        Node *fast = head;
+        for (int i = 0; i < n; i++)
+        {
+            if (fast == nullptr)
+                return false;
+            fast = fast->next;
+        }
+
+        Node *curr = head;
+        Node *prev = nullptr;
+
+        while (fast != nullptr)
+        {
+            fast = fast->next;
+            prev = curr;
+            curr = curr->next;
+        }
+
+        if (prev == nullptr) // Curr is the head
+        {
+            head = curr->next;
+        }
+        else
+        {
+            prev->next = curr->next;
+        }
+        std::cout << "\nRemoving " << n << " node from end with value: " << curr->data << endl;
+        delete curr;
+        size--;
+        return true;
+    }
+    // 3. Removing every kth node
+    bool remove_every_kth(int k)
+    {
+        if (k <= 1 or head == nullptr)
+        {
+            return true;
+        }
+        // We are supposing in this function that the list is indexed from 1 not from 0
+        Node *curr = head;
+        int count = 1;
+        while (curr != nullptr)
+        {
+            if ((count + 1) % k == 0)
+            {
+                // Check if we can safely delete the next node
+                if (curr->next == nullptr)
+                    break;
+                Node *to_delete = curr->next;
+                curr->next = to_delete->next;
+                delete to_delete;
+            }
+            else
+                curr = curr->next;
+            count++;
+        }
+        return true;
+    }
+    // 4. Get the middle value
+    int middle()
+    {
+        if (head == nullptr)
+            return -1;
+        Node *slow = head;
+        Node *fast = head;
+        while (fast != nullptr and fast->next != nullptr)
+        {
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        std::cout << "\nMiddle Value is: " << slow->data << endl;
+        return slow->data;
+    }
+    // 5. Check if a loop exists or not
+    bool loop_exists()
+    {
+        if (head == nullptr)
+            return false;
+        Node *slow = head;
+        Node *fast = head;
+        while (fast != nullptr and fast->next != nullptr)
+        {
+            fast = fast->next->next;
+            slow = slow->next;
+            if (slow == fast)
+                return true;
+        }
+        return false;
+    }
+    // 6. Give size of the loop
+    int size_of_loop()
+    {
+        if (head == nullptr)
+            return -1;
+        Node *slow = head;
+        Node *fast = head;
+        while (fast != nullptr and fast->next != nullptr)
+        {
+            fast = fast->next->next;
+            slow = slow->next;
+            if (fast == slow)
+            {
+                int count = 0;
+                for (Node *p = slow; p != fast; p = p = p->next)
+                    count++;
+                return count;
+            }
+        }
+    }
 };
 
 int main()
@@ -187,11 +323,9 @@ int main()
     list.push(20);
     list.push_after(15, 10);
     list.push_before(5, 10);
+    list.push(30);
+    list.middle();
     list.display_all();
-    list.pop();
-    list.pop_value(5);
-    list.pop_value(2);
-    list.pop_value(3);
-    list.display_all();
+
     return 0;
 }
