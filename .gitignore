@@ -1,5 +1,21 @@
-# Build-files and directories
-build/
-.vscode/
+# Python
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints/
+.venv/
+.env
 
-#
+# C++
+*.o
+*.exe
+*.out
+
+# OS / Editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Large / temporary
+*.tmp
+~$*
