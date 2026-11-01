@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <stack>
 using namespace std;
 struct Node
 {
@@ -95,6 +97,7 @@ public:
     }
 };
 
+
 int main()
 {
     Stack_LL stack;
@@ -111,6 +114,6 @@ int main()
     stack.pop();
     stack.pop();
     stack._size();
-
+    
     return 0;
 }
